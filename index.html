@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NONIOAEY - รับทำป้ายขายไอดี & เว็บไซต์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #fff0f5; /* ชมพูอ่อนมาก */
+            --pink-soft: #ffb6c1; /* ชมพูพาสเทล */
+            --pink-dark: #ff69b4; /* ชมพูเข้ม */
+            --text-dark: #4a4a4a;
+            --box-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+            --border-radius: 25px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(circle at top left, #ffe4e1, transparent 40%),
+                              radial-gradient(circle at bottom right, #ffc0cb, transparent 40%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ตกแต่ง Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--pink-soft); border-radius: 10px; }
+
+        /* ส่วนหัวและ Profile */
+        header {
+            text-align: center;
+            padding: 50px 20px 20px;
+            position: relative;
+        }
+        .profile-pic {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        h1.shop-name { color: var(--pink-dark); font-size: 2.5rem; text-shadow: 2px 2px 0px white; }
+        p.slogan { font-size: 1.1rem; color: #666; margin-bottom: 20px; }
+
+        /* Container หลัก */
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        /* Section กล่องข้อมูล */
+        .section-box {
+            background: var(--box-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 2px solid white;
+            position: relative;
+        }
+        .section-title {
+            background: var(--pink-soft);
+            color: white;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
+        }
+
+        .details-text { line-height: 1.6; margin-bottom: 20px; white-space: pre-wrap; }
+        .details-text b { color: var(--pink-dark); }
+
+        /* Grid แสดงผลงาน */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .work-item {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .work-item:hover { transform: translateY(-5px); }
+        .work-img-container {
+            width: 100%; height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .work-img-container img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .work-title { font-size: 1rem; margin: 10px 0; color: var(--pink-dark); }
+        
+        .btn-link {
+            display: inline-block;
+            background: var(--pink-dark);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .btn-link:hover { background: var(--pink-soft); }
+
+        /* Social Links */
+        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .social-btn {
+            background: white;
+            color: var(--pink-dark);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+        }
+        .social-btn:hover { background: var(--pink-dark); color: white; transform: scale(1.1); }
+
+        /* Admin Trigger (ซ่อนอยู่มุมขวาล่าง) */
+        .admin-trigger {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-size: 2rem;
+            background: white;
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            user-select: none;
+            color: var(--pink-soft);
+        }
+
+        /* --- สไตล์เฉพาะโหมดแอดมิน --- */
+        .admin-controls { display: none; }
+        .admin-mode .admin-controls { display: flex; }
+        .admin-mode [contenteditable="true"] {
+            border: 2px dashed var(--pink-soft);
+            padding: 2px 5px;
+            border-radius: 5px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .admin-mode [contenteditable="true"]:focus { border-color: var(--pink-dark); background: white; }
+
+        /* ปุ่มเครื่องมือแอดมินบนรูปภาพ */
+        .img-tools {
+            position: absolute; top: 5px; right: 5px;
+            display: flex; gap: 5px;
+            z-index: 10;
+        }
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--pink-dark);
+            border: none; border-radius: 50%;
+            width: 30px; height: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-add-section {
+            background: var(--pink-soft); color: white;
+            border: none; padding: 10px 20px; border-radius: 20px;
+            cursor: pointer; font-size: 1rem;
+            margin-bottom: 20px; width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        /* Modal ใส่รหัสผ่าน */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal-box {
+            background: white; padding: 30px; border-radius: 20px; text-align: center;
+            box-shadow: var(--shadow); border: 3px solid var(--pink-soft);
+        }
+        .modal-box input {
+            padding: 10px; border: 2px solid var(--pink-soft); border-radius: 10px;
+            text-align: center; font-size: 1.2rem; margin: 15px 0; outline: none;
+        }
+        .modal-box button {
+            background: var(--pink-dark); color: white; border: none; padding: 10px 20px;
+            border-radius: 10px; cursor: pointer;
+        }
+
+        /* Modal ดูรูปใหญ่ */
+        .img-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none; align-items: center; justify-content: center; z-index: 3000;
+        }
+        .img-modal img { max-width: 90%; max-height: 90%; border-radius: 15px; border: 3px solid white; }
+        .img-modal-close {
+            position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer;
+        }
+
+        /* Notification ป๊อปอัพ */
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--pink-dark); color: white; padding: 10px 20px;
+            border-radius: 20px; z-index: 4000; display: none; box-shadow: var(--shadow);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toastMsg">บันทึกข้อมูลแล้ว!</div>
+
+    <div class="admin-trigger" onclick="openLoginModal()" title="Admin Login">🌸</div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <h2 style="color: var(--pink-dark);">💕 Admin Login</h2>
+            <p style="font-size: 0.9rem; margin-top:5px;">ใส่รหัสผ่านเพื่อแก้ไขเว็บ</p>
+            <input type="password" id="pinCode" placeholder="Pin Code">
+            <br>
+            <button onclick="checkPin()">เข้าสู่ระบบ</button>
+            <button onclick="closeLoginModal()" style="background:#ccc; margin-left:10px;">ยกเลิก</button>
+        </div>
+    </div>
+
+    <div class="img-modal" id="imageModal">
+        <span class="img-modal-close" onclick="closeImageModal()">&times;</span>
+        <img id="enlargedImg" src="" alt="Full size">
+    </div>
+
+    <input type="file" id="fileUploader" accept="image/*" style="display: none;">
+
+    <div id="editableContent">
+        
+        <header>
+            <div style="position: relative; display: inline-block;">
+                <img src="https://via.placeholder.com/150/ffb6c1/ffffff?text=Profile" alt="Profile" class="profile-pic" id="mainProfilePic">
+                <div class="admin-controls img-tools" style="top: auto; bottom: 20px; right: 0;">
+                    <button class="tool-btn" onclick="triggerImgUpload('mainProfilePic')"><i class="fas fa-camera"></i></button>
+                </div>
+            </div>
+            <h1 class="shop-name editable" data-placeholder="ชื่อร้าน">NONIOAEY</h1>
+            <p class="slogan editable" data-placeholder="สโลแกน / คำโปรย">รับทำป้ายขายไอดี , ทำเว็บร้าน , ปล่อยเช่ารหัส , อื่นๆ</p>
+        </header>
+
+        <div class="container">
+            <div class="section-box">
+                <div class="section-title editable" data-placeholder="หัวข้อ">งานเว็บ 💻</div>
+                <div class="details-text editable" data-placeholder="รายละเอียด">รับทำเว็บไซต์ลิงค์ร้าน มีทั้งเทมเพลตให้เลือกเเละงานสั่งทำพิเศษ สามารถสอบถามได้ราคาเริ่มต้นที่ 69 บาท
+
+<b>เรทราคาเว็บ:</b>
+- เว็บโอนเงิน 69 บาท
+- เว็บตัวอย่างผลงาน 109 บาท
+- เว็บรายละเอียดต่างๆ 159 บาท
+- เว็บตัวอย่างผลงาน + รายละเอียดต่างๆ 209 บาท
+- เว็บอื่นๆ สามารถส่งรายละเอียดมาสอบถามราคาได้ 
+
+<b>ราคาบวกเพิ่ม:</b>
+- เเก้ฟรี 1 ครั้งก่อนส่งลิงค์ หลังส่งลิงค์เเก้จุดละ 5 บาท 
+- รูปที่ 1 - 3 ใส่ฟรี เพิ่มรูป รูปละ 10 บาท
+* รองาน 4 - 8 ชั่วโมง หากคิวเยอะจะเเจ้งก่อน</div>
+                
+                <button class="admin-controls btn-add-section" onclick="addWorkItem(this, 'link')"><i class="fas fa-plus"></i> เพิ่มผลงานเว็บ</button>
+                
+                <div class="work-grid">
+                    <div class="work-item">
+                        <div class="work-img-container">
+                            <img src="https://via.placeholder.com/300/ffd1dc/fff?text=Web+1" id="img-web-1">
+                            <div class="admin-controls img-tools">
+                                <button class="tool-btn" onclick="triggerImgUpload('img-web-1')"><i class="fas fa-camera"></i></button>
+                                <button class="tool-btn" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <h3 class="work-title editable">เว็บตัวอย่างงาน</h3>
+                        <a href="#" class="btn-link edit-link" onclick="handleLinkClick(event, this)">ดูตัวอย่าง</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title editable" data-placeholder="หัวข้อ">ป้ายไอดี 🖼️</div>
+                <div class="details-text editable" data-placeholder="รายละเอียด">รับทำป้ายขายไอดี
+
+<b>เรทราคา 𝖲𝗄𝗂𝗇 𝖱𝖺𝗍𝖾:</b>
+• 1 - 100 สกิน ﹕สกินละ 0.50
+• 100+ สกิน ﹕สกินละ 1.00
+
+<b>𝖮𝗍𝗁𝖾𝗋𝗌:</b>
+• หัวป้าย ﹕ 35.-
+• ป้ายไฟ ﹕ 2.- / ชิ้น
+• ประดับ ﹕ 0.50 / ชิ้น
+
+- เเก้ฟรี 1 ครั้งก่อนส่งงาน หลังส่งงานเเก้จุดละ 5 บาท 
+- รองาน 4 - 8 ชั่วโมง หากคิวเยอะจะเเจ้งก่อน</div>
+                
+                <button class="admin-controls btn-add-section" onclick="addWorkItem(this, 'image')"><i class="fas fa-plus"></i> เพิ่มผลงานป้ายไอดี</button>
+                
+                <div class="work-grid">
+                    <div class="work-item">
+                        <div class="work-img-container">
+                            <img src="https://via.placeholder.com/300/ffb6c1/fff?text=ID+1" id="img-id-1" onclick="if(!isAdmin) openImageModal(this.src)">
+                            <div class="admin-controls img-tools">
+                                <button class="tool-btn" onclick="triggerImgUpload('img-id-1')"><i class="fas fa-camera"></i></button>
+                                <button class="tool-btn" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <h3 class="work-title editable">ป้าย ID สไตล์หวาน</h3>
+                        <span style="font-size: 0.8rem; color:#888;">(กดรูปเพื่อดูขนาดใหญ่)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title editable">กลุ่ม ROV 🎮</div>
+                <button class="admin-controls btn-add-section" onclick="addWorkItem(this, 'link')"><i class="fas fa-plus"></i> เพิ่มผลงาน ROV</button>
+                <div class="work-grid"></div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title editable">กลุ่ม Identity V 🎭</div>
+                <button class="admin-controls btn-add-section" onclick="addWorkItem(this, 'link')"><i class="fas fa-plus"></i> เพิ่มผลงาน IDV</button>
+                <div class="work-grid"></div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title editable">คำถามที่พบบ่อย (FAQ) ❓</div>
+                <div class="details-text editable">
+<b>Q: สั่งงานต้องเตรียมอะไรบ้าง?</b>
+A: บรีฟโทนสีที่อยากได้ ข้อความที่ต้องการใส่ และรูปภาพประกอบครับ
+
+<b>Q: ชำระเงินช่องทางไหนได้บ้าง?</b>
+A: รับโอนผ่านธนาคาร และ TrueMoney Wallet ครับ
+                </div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-title editable">วิธีสั่งซื้อ (How to Order) 📝</div>
+                <div class="details-text editable">
+1. ทักแชทแจ้งประเภทงานที่ต้องการ (เว็บ, ป้ายไอดี ฯลฯ)
+2. ส่งบรีฟ (สี, รูป, ข้อความ)
+3. ชำระเงินยอดเต็มเพื่อจองคิว
+4. รอรับงานภายใน 4-8 ชม. (แก้ฟรี 1 ครั้งก่อนส่งมอบ)
+                </div>
+            </div>
+
+            <div class="section-box" style="text-align: center;">
+                <h3 style="color: var(--pink-dark); margin-bottom: 15px;">ติดต่อสั่งงานได้ที่ 💌</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1De6NiueGU/?mibextid=wwXIfr" target="_blank" class="social-btn edit-link" onclick="handleLinkClick(event, this)">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://line.me/ti/p/xnh050s5VP" target="_blank" class="social-btn edit-link" onclick="handleLinkClick(event, this)">
+                        <i class="fab fa-line"></i>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div> <script>
+        let isAdmin = false;
+        let currentTargetImgId = null;
+
+        // เมื่อโหลดหน้าเว็บ ให้เช็คว่ามีข้อมูลที่บันทึกไว้ไหม
+        window.onload = () => {
+            const savedContent = localStorage.getItem('nonioaeyContent');
+            if(savedContent) {
+                document.getElementById('editableContent').innerHTML = savedContent;
+            }
+        };
+
+        // ฟังก์ชันบันทึกข้อมูลอัตโนมัติ
+        function saveData() {
+            if(!isAdmin) return;
+            // ถอดโหมดแก้ไขออกชั่วคราวก่อนเซฟ เพื่อไม่ให้ติดแท็กแปลกๆ
+            const content = document.getElementById('editableContent').innerHTML;
+            localStorage.setItem('nonioaeyContent', content);
+            
+            // แสดงแจ้งเตือน
+            const toast = document.getElementById('toastMsg');
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2000);
+        }
+
+        // ฟังการพิมพ์แก้ข้อความ แล้วเซฟอัตโนมัติ
+        document.addEventListener('input', (e) => {
+            if(e.target.classList.contains('editable')) {
+                // หน่วงเวลาเซฟเล็กน้อยกันกระตุก
+                clearTimeout(window.saveTimeout);
+                window.saveTimeout = setTimeout(saveData, 1000);
+            }
+        });
+
+        /* --- ระบบ Login --- */
+        function openLoginModal() {
+            if(isAdmin) {
+                // ถ้าเป็นแอดมินอยู่แล้ว กดไอคอนจะเป็นการออกจากระบบ
+                toggleAdminMode(false);
+            } else {
+                document.getElementById('loginModal').style.display = 'flex';
+                document.getElementById('pinCode').value = '';
+                document.getElementById('pinCode').focus();
+            }
+        }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+        
+        function checkPin() {
+            const pin = document.getElementById('pinCode').value;
+            if(pin === 'ss11') {
+                toggleAdminMode(true);
+                closeLoginModal();
+            } else {
+                alert('รหัสผ่านไม่ถูกต้อง! ❌');
+            }
+        }
+
+        function toggleAdminMode(status) {
+            isAdmin = status;
+            const body = document.body;
+            const editables = document.querySelectorAll('.editable');
+            
+            if(isAdmin) {
+                body.classList.add('admin-mode');
+                editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+                document.querySelector('.admin-trigger').innerHTML = '🔒'; // เปลี่ยนไอคอนตอนล็อคอินแล้ว
+                alert('เข้าสู่โหมดแก้ไขสำเร็จ! จิ้มที่ข้อความหรือรูปเพื่อแก้ไขได้เลย ✨');
+            } else {
+                body.classList.remove('admin-mode');
+                editables.forEach(el => el.setAttribute('contenteditable', 'false'));
+                document.querySelector('.admin-trigger').innerHTML = '🌸';
+                saveData(); // บันทึกรอบสุดท้าย
+            }
+        }
+
+        /* --- จัดการรูปภาพ (อัพโหลดจากมือถือ/คอม) --- */
+        function triggerImgUpload(imgId) {
+            currentTargetImgId = imgId;
+            document.getElementById('fileUploader').click();
+        }
+
+        document.getElementById('fileUploader').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if(file && currentTargetImgId) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(currentTargetImgId).src = e.target.result;
+                    saveData();
+                };
+                reader.readAsDataURL(file);
+            }
+            this.value = ''; // Reset
+        });
+
+        /* --- จัดการเพิ่ม/ลบ งาน --- */
+        function addWorkItem(btnElement, type) {
+            const grid = btnElement.nextElementSibling;
+            const uniqueId = 'img-' + Date.now();
+            
+            let bottomElement = '';
+            if(type === 'link') {
+                bottomElement = `<a href="#" class="btn-link edit-link" onclick="handleLinkClick(event, this)">ดูตัวอย่าง (แก้ลิงก์)</a>`;
+            } else {
+                bottomElement = `<span style="font-size: 0.8rem; color:#888;">(กดรูปเพื่อดูขนาดใหญ่)</span>`;
+            }
+
+            const itemHtml = `
+                <div class="work-item">
+                    <div class="work-img-container">
+                        <img src="https://via.placeholder.com/300/f0f0f0/ccc?text=New+Image" id="${uniqueId}" ${type==='image' ? 'onclick="if(!isAdmin) openImageModal(this.src)"' : ''}>
+                        <div class="admin-controls img-tools">
+                            <button class="tool-btn" onclick="triggerImgUpload('${uniqueId}')"><i class="fas fa-camera"></i></button>
+                            <button class="tool-btn" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="work-title editable" contenteditable="true">ชื่องานใหม่</h3>
+                    ${bottomElement}
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', itemHtml);
+            saveData();
+        }
+
+        function deleteItem(btnElement) {
+            if(confirm('ต้องการลบงานชิ้นนี้ใช่หรือไม่? 🗑️')) {
+                btnElement.closest('.work-item').remove();
+                saveData();
+            }
+        }
+
+        /* --- จัดการลิงก์ (แก้ URL ตอนเป็นแอดมิน) --- */
+        function handleLinkClick(event, linkElement) {
+            if(isAdmin) {
+                event.preventDefault(); // ไม่ให้เปลี่ยนหน้า
+                const newUrl = prompt('ใส่ลิงก์ปลายทางที่ต้องการ (เช่น https://...):', linkElement.href);
+                if(newUrl) {
+                    linkElement.href = newUrl;
+                    saveData();
+                }
+            }
+            // ถ้าไม่ใช่แอดมิน ให้คลิกแล้วลิงก์ไปตามปกติ
+        }
+
+        /* --- Modal ดูรูปใหญ่ สำหรับป้ายไอดี --- */
+        function openImageModal(src) {
+            if(isAdmin) return; // ถ้าเป็นแอดมิน ให้กดรูปแล้วไม่เด้ง (เพื่อแก้รูปง่ายๆ)
+            document.getElementById('enlargedImg').src = src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
